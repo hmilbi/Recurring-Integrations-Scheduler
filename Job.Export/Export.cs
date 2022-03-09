@@ -127,7 +127,7 @@ namespace RecurringIntegrationsScheduler.Job
             using (_httpClientHelper = new HttpClientHelper(_settings))
             {
                 var executionId = $"{_settings.DataProject}-{DateTime.Now:yyyy-MM-dd_HH-mm-ss}-{Guid.NewGuid()}";
-                
+
                 var responseExportToPackage = await _httpClientHelper.ExportToPackage(_settings.DataProject, executionId, executionId, _settings.Company);
 
                 if (!responseExportToPackage.IsSuccessStatusCode)
@@ -191,7 +191,7 @@ namespace RecurringIntegrationsScheduler.Job
                     }
                     while (string.IsNullOrEmpty(HttpClientHelper.ReadResponseString(packageUrlResponse)));
 
-                    var packageUri = new Uri(HttpClientHelper.ReadResponseString(packageUrlResponse));             
+                    var packageUri = new Uri(HttpClientHelper.ReadResponseString(packageUrlResponse));
                     var response = await _httpClientHelper.GetRequestAsync(packageUri, false);
                     if (!response.IsSuccessStatusCode)
                     {
@@ -207,6 +207,11 @@ namespace RecurringIntegrationsScheduler.Job
                         MessageStatus = MessageStatus.Succeeded
                     };
                     _retryPolicyForIo.Execute(() => FileOperationsHelper.Create(downloadedStream, dataMessage.FullPath));
+
+                    if (_settings.CreateDailyLog_BEC)
+                    {
+                        _retryPolicyForIo.Execute(() => FileOperationsHelper.WriteDailyLog_BEC(dataMessage));
+                    }
 
                     if (_settings.UnzipPackage)
                     {

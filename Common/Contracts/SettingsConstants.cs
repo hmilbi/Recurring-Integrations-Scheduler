@@ -157,7 +157,7 @@ namespace RecurringIntegrationsScheduler.Common.Contracts
         /// The upload job
         /// </summary>
         public const string UploadJob = "RecurringIntegrationsScheduler.Job.Upload";
-        
+
         /// <summary>
         /// The processing job
         /// </summary>
@@ -342,6 +342,11 @@ namespace RecurringIntegrationsScheduler.Common.Contracts
         /// Log verbose
         /// </summary>
         public const string LogVerbose = "LogVerbose";
+
+        /// <summary>
+        /// Daily log
+        /// </summary>
+        public const string CreateDailyLog_BEC = "CreateDailyLog_BEC";
 
         /// <summary>
         /// Job key

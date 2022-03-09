@@ -84,13 +84,13 @@ namespace RecurringIntegrationsScheduler.Common.JobSettings
             DelayBetweenFiles = dataMap.GetInt(SettingsConstants.DelayBetweenFiles);
 
             RetryCount = dataMap.GetInt(SettingsConstants.RetryCount);
-            if (RetryCount == 0) 
+            if (RetryCount == 0)
             {
                 RetryCount = 1;
             }
 
             RetryDelay = dataMap.GetInt(SettingsConstants.RetryDelay);
-            if (RetryDelay == 0) 
+            if (RetryDelay == 0)
             {
                 RetryDelay = 10; //seconds
             }
@@ -174,6 +174,8 @@ namespace RecurringIntegrationsScheduler.Common.JobSettings
             GetExecutionErrors = dataMap.GetBooleanValue(SettingsConstants.GetExecutionErrors);
 
             LogVerbose = dataMap.GetBooleanValue(SettingsConstants.LogVerbose);
+
+            CreateDailyLog_BEC = dataMap.GetBooleanValue(SettingsConstants.CreateDailyLog_BEC);
 
             JobKey = context.JobDetail.Key.ToString();
         }
@@ -403,6 +405,14 @@ namespace RecurringIntegrationsScheduler.Common.JobSettings
         /// <c>true</c> if [Log verbose]; otherwise, <c>false</c>.
         /// </value>
         public bool LogVerbose { get; private set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to create a daily log file.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [Create daily log]; otherwise, <c>false</c>.
+        /// </value>
+        public bool CreateDailyLog_BEC { get; private set; }
 
         /// <summary>
         /// Get the Job key

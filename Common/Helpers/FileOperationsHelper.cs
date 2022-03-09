@@ -49,7 +49,7 @@ namespace RecurringIntegrationsScheduler.Common.Helpers
                         true);
                 }
                 catch (IOException)
-                {                    
+                {
                 }
             }
             return null;
@@ -329,6 +329,14 @@ namespace RecurringIntegrationsScheduler.Common.Helpers
 
             using var logMemoryStream = new MemoryStream(Encoding.Default.GetBytes(logData));
             Create(logMemoryStream, logFilePath);
+        }
+
+        public static void WriteDailyLog_BEC(DataMessage dataMessage)
+        {
+            string today = DateTime.Now.Date.ToString("yyyy_MM_dd");
+            string directory = Path.GetDirectoryName(dataMessage.FullPath);
+            string dailyLogPath = Path.Combine(directory, $"{today}.log");
+            File.AppendAllLines(dailyLogPath, new[] { $"{DateTime.Now.ToShortTimeString()};{dataMessage.CorrelationId};{dataMessage.FullPath}" });
         }
     }
 }

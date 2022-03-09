@@ -194,6 +194,8 @@ namespace RecurringIntegrationsScheduler.Forms
 
                 verboseLoggingCheckBox.Checked = JobDetail.JobDataMap.GetBooleanValue(SettingsConstants.LogVerbose);
 
+                createDailyLogCheckBox_BEC.Checked = JobDetail.JobDataMap.GetBooleanValue(SettingsConstants.CreateDailyLog_BEC);
+
                 Properties.Settings.Default.Save();
             }
             FormsHelper.SetDropDownsWidth(this);
@@ -242,7 +244,8 @@ namespace RecurringIntegrationsScheduler.Forms
                 {SettingsConstants.GetExecutionSummaryStatusActionPath, getExecutionSummaryStatusTextBox.Text},
                 {SettingsConstants.GetExportedPackageUrlActionPath, getExportedPackageUrlTextBox.Text},
                 {SettingsConstants.IndefinitePause, pauseIndefinitelyCheckBox.Checked},
-                {SettingsConstants.LogVerbose, verboseLoggingCheckBox.Checked}
+                {SettingsConstants.LogVerbose, verboseLoggingCheckBox.Checked},
+                {SettingsConstants.CreateDailyLog_BEC, createDailyLogCheckBox_BEC.Checked}
             };
             if (serviceAuthRadioButton.Checked)
             {

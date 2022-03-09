@@ -98,9 +98,9 @@ namespace RecurringIntegrationsScheduler.Job
                 }
 
                 _retryPolicyForIo = Policy.Handle<IOException>().WaitAndRetry(
-                    retryCount: _settings.RetryCount, 
+                    retryCount: _settings.RetryCount,
                     sleepDurationProvider: attempt => TimeSpan.FromSeconds(_settings.RetryDelay),
-                    onRetry: (exception, calculatedWaitDuration) => 
+                    onRetry: (exception, calculatedWaitDuration) =>
                     {
                         Log.WarnFormat(CultureInfo.InvariantCulture, string.Format(Resources.Job_0_Retrying_IO_operation_Exception_1, _context.JobDetail.Key, exception.Message));
                     });
@@ -183,7 +183,7 @@ namespace RecurringIntegrationsScheduler.Job
                     default:
                         // Dequeue failed. Log error.
                         throw new JobExecutionException(string.Format(CultureInfo.InvariantCulture, string.Format(Resources.Job_0_Failure_response_Status_1_2_Reason_3, _context.JobDetail.Key, response.StatusCode, response.StatusCode, response.ReasonPhrase)));
-                        
+
                 }
             }
             if (!DownloadQueue.IsEmpty)
@@ -230,6 +230,11 @@ namespace RecurringIntegrationsScheduler.Job
                     dataMessage.MessageStatus = MessageStatus.Succeeded;
 
                     _retryPolicyForIo.Execute(() => FileOperationsHelper.Create(downloadedStream, dataMessage.FullPath));
+
+                    if(_settings.CreateDailyLog_BEC)
+                    {
+                        _retryPolicyForIo.Execute(() => FileOperationsHelper.WriteDailyLog_BEC(dataMessage));
+                    }
                 }
                 if (_settings.LogVerbose || Log.IsDebugEnabled)
                 {
